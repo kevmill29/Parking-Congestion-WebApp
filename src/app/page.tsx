@@ -67,6 +67,10 @@ export default function LotsListPage() {
     return "success"; // green
   };
 
+  const handleModePicker = (e) => {
+    console.log(e);
+  };
+
   if (loading) {
     return (
       <main className="p-6 max-w-3xl mx-auto text-center">
@@ -80,15 +84,15 @@ export default function LotsListPage() {
 
   return (
     <main className="p-6 max-w-3xl mx-auto">
+      <Typography variant="h4" gutterBottom>
+        Parking Lots Overview
+      </Typography>
       <Stack
         direction="row"
         justifyContent="space-between"
         alignItems="center"
         sx={{ mb: 2 }}
       >
-        <Typography variant="h4" gutterBottom>
-          Parking Lots Overview
-        </Typography>
         <FormControl>
           <InputLabel id="demo-simple-select-label">Parking Type</InputLabel>
           <Select
@@ -96,7 +100,7 @@ export default function LotsListPage() {
             id="demo-simple-select"
             value={displayMode}
             label="Age"
-            onChange={setDisplayMode}
+            onChange={handleModePicker}
           >
             <MenuItem value={"resident"}>Resident Student</MenuItem>
             <MenuItem value={"commuter"}>Commuter Student</MenuItem>

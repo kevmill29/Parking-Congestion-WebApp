@@ -14,7 +14,7 @@ export default function LotsListPage() {
   const [lots, setLots] = useState<Lot[]>([]);
 
   useEffect(() => {
-    fetch('/api/lots/')
+    fetch('/api/lots/list')
       .then((res) => res.json())
       .then(setLots)
       .catch(console.error);

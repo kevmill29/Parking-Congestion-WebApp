@@ -13,9 +13,9 @@
     "isolatedModules": true,
     "jsx": "react-jsx",
     "incremental": true,
-    "baseUrl": ".",  // ✅ Required for path aliases
+    "baseUrl": "src",
     "paths": {
-      "@/*": ["src/*"]  // ✅ Assumes your code lives in /src
+      "@/*": ["*"]
     },
     "plugins": [
       {

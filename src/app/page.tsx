@@ -1,13 +1,14 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import LinearProgress from '@mui/material/LinearProgress';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Paper from '@mui/material/Paper';
-import Button from '@mui/material/Button';
-import Stack from '@mui/material/Stack';
-import SortIcon from '@mui/icons-material/Sort';
+import { useEffect, useState } from "react";
+import LinearProgress from "@mui/material/LinearProgress";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Paper from "@mui/material/Paper";
+import Button from "@mui/material/Button";
+import Stack from "@mui/material/Stack";
+import SortIcon from "@mui/icons-material/Sort";
+import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 
 interface Lot {
   _id?: string;
@@ -17,15 +18,19 @@ interface Lot {
   scans?: { plateNumber: string }[];
   scanCount: number;
   available?: number;
+  allows: { [key: string]: boolean };
 }
 
 export default function LotsListPage() {
   const [lots, setLots] = useState<Lot[]>([]);
   const [loading, setLoading] = useState(true);
   const [sortAsc, setSortAsc] = useState(true); // toggle for sort order
+  const [displayMode, setDisplayMode] = useState<
+    "resident" | "facstaff" | "visitor" | "commuter"
+  >("commuter");
 
   useEffect(() => {
-    fetch('/api/lots')
+    fetch("/api/lots")
       .then((res) => res.json())
       .then((data) => {
         // Compute derived data fields if not provided
@@ -33,28 +38,33 @@ export default function LotsListPage() {
           const available = lot.available ?? lot.capacity - lot.scanCount;
           return { ...lot, available };
         });
-        setLots(processed);
+        const filtered = processed.filter((item: Lot) => {
+          return item.allows[displayMode] == true;
+        });
+
+        setLots(filtered);
       })
       .catch(console.error)
       .finally(() => setLoading(false));
-  }, []);
+  }, [displayMode]);
 
   // Sort handler
   const handleSort = () => {
     setSortAsc((prev) => !prev);
     setLots((prev) =>
-      [...prev].sort((a, b) =>
-        sortAsc
-          ? (b.available ?? 0) - (a.available ?? 0) // Descending
-          : (a.available ?? 0) - (b.available ?? 0) // Ascending
+      [...prev].sort(
+        (a, b) =>
+          sortAsc
+            ? (b.available ?? 0) - (a.available ?? 0) // Descending
+            : (a.available ?? 0) - (b.available ?? 0) // Ascending
       )
     );
   };
 
   const getColor = (percent: number) => {
-    if (percent >= 90) return 'error'; // red
-    if (percent >= 70) return 'warning'; // yellow
-    return 'success'; // green
+    if (percent >= 90) return "error"; // red
+    if (percent >= 70) return "warning"; // yellow
+    return "success"; // green
   };
 
   if (loading) {
@@ -70,16 +80,36 @@ export default function LotsListPage() {
 
   return (
     <main className="p-6 max-w-3xl mx-auto">
-      <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 2 }}>
+      <Stack
+        direction="row"
+        justifyContent="space-between"
+        alignItems="center"
+        sx={{ mb: 2 }}
+      >
         <Typography variant="h4" gutterBottom>
           Parking Lots Overview
         </Typography>
+        <FormControl>
+          <InputLabel id="demo-simple-select-label">Parking Type</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={displayMode}
+            label="Age"
+            onChange={setDisplayMode}
+          >
+            <MenuItem value={"resident"}>Resident Student</MenuItem>
+            <MenuItem value={"commuter"}>Commuter Student</MenuItem>
+            <MenuItem value={"facstaff"}>Faculty/Staff</MenuItem>{" "}
+            <MenuItem value={"visitor"}>Visitor</MenuItem>
+          </Select>
+        </FormControl>
         <Button
           variant="outlined"
           startIcon={<SortIcon />}
           onClick={handleSort}
         >
-          Sort by Availability {sortAsc ? '(↓)' : '(↑)'}
+          Sort by Availability {sortAsc ? "(↓)" : "(↑)"}
         </Button>
       </Stack>
 
@@ -90,7 +120,8 @@ export default function LotsListPage() {
       )}
 
       {lots.map((lot) => {
-        const percent = lot.capacity > 0 ? (lot.scanCount / lot.capacity) * 100 : 0;
+        const percent =
+          lot.capacity > 0 ? (lot.scanCount / lot.capacity) * 100 : 0;
 
         return (
           <Paper
@@ -100,12 +131,16 @@ export default function LotsListPage() {
               p: 2,
               mb: 2,
               borderRadius: 2,
-              display: 'flex',
-              flexDirection: 'column',
+              display: "flex",
+              flexDirection: "column",
               gap: 1,
             }}
           >
-            <Box display="flex" justifyContent="space-between" alignItems="center">
+            <Box
+              display="flex"
+              justifyContent="space-between"
+              alignItems="center"
+            >
               <Typography variant="h6">{lot.title}</Typography>
               <Typography variant="body2" color="text.secondary">
                 {lot.available} / {lot.capacity} available

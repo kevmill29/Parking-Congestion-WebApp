@@ -66,25 +66,25 @@ It’s built using Next.js 16 and Material UI, with MongoDB as the backend data 
 
 Submit detailed incident reports with:
 
-Reporter name
+-Reporter name
 
-License plate
+-License plate
 
-Lot ID
+-Lot ID
 
-Description
+-Description
 
-Photo upload
+-Photo upload
 
-Timestamp (createdAt)
+-Timestamp (createdAt)
 
-Automatically saved to MongoDB
+-Automatically saved to MongoDB
 
-##Global Navigation
+-Global Navigation
 
-Universal <BackButton /> for page navigation
+-Universal <BackButton /> for page navigation
 
-Simple and consistent Material UI interface
+-Simple and consistent Material UI interface
 
 # Tech Stack
 Layer	Technology

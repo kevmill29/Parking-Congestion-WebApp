@@ -150,5 +150,6 @@ Parking projections/forecasting once a large enough sample size of data is gathe
 # MongoDB Schema
 ![Schema example](./examplemongodb.png)
 
+# Example photo of Functionality
 ![Parking App Dashboard](./Example.png)
 

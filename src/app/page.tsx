@@ -62,6 +62,18 @@ export default function HomePage() {
               🚧 Report an Accident
             </Button>
           </Link>
+          
+          <Button
+            href="/register"
+            component={Link}
+            variant="outlined"
+            color="primary"
+            size="large"
+          >
+            Register Vehicle
+          </Button>
+
+          
         </Stack>
       </Paper>
 

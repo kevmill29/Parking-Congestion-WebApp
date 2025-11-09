@@ -43,7 +43,7 @@ export default function EnforcementDashboard() {
         mb={3}
       >
         <Typography variant="h4" fontWeight="bold">
-          🚓 Parking Enforcement Dashboard
+          Enforcement
         </Typography>
         <Button variant="outlined" onClick={fetchAlerts}>
           Refresh Now

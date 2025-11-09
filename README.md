@@ -1,36 +1,205 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+![Parking App Dashboard](./Example.png)
+Parking Congestion Web App
 
-## Getting Started
+A full-stack Next.js + MongoDB application for managing parking lots, detecting unauthorized vehicles, and reporting parking-related incidents.
+This system provides tools for administrators, enforcement officers, and visitors to view, monitor, and report parking lot activity efficiently.
 
-First, run the development server:
+#TABLE OF CONTENTS
 
-```bash
+Overview
+
+Features
+
+Tech Stack
+
+Project Structure
+
+MongoDB Schema
+
+API Endpoints
+
+Setup Instructions
+
+Testing the App
+
+Troubleshooting
+
+Future Enhancements
+
+# Overview
+
+Parking Congestion Web App helps track real-time parking availability, detect overstayed or unauthorized vehicles, and file parking incident reports.
+It’s built using Next.js 16 and Material UI, with MongoDB as the backend data store.
+
+ # Key Users
+
+- Parking Administrators – Manage lots and view availability
+
+- Enforcement Officers – Monitor unauthorized vehicles
+
+- Staff/Users – Submit accident or incident reports
+
+# Features
+ -Lot Overview Dashboard
+
+-Displays each parking lot’s:
+
+-Occupancy rate (with MUI LinearProgress)
+
+-Available vs. total capacity
+
+-Sort lots by availability (ascending/descending)
+
+-Dynamic data pulled from MongoDB
+
+ # Enforcement Dashboard
+
+Detects unauthorized plates parked longer than 15 minutes
+
+Auto-refreshes every 60 seconds
+
+Color-coded alerts:
+
+🟡 Minor: 15–30 minutes
+
+🔴 Major: >30 minutes
+
+# Accident Reporting
+
+Submit detailed incident reports with:
+
+Reporter name
+
+License plate
+
+Lot ID
+
+Description
+
+Photo upload
+
+Timestamp (createdAt)
+
+Automatically saved to MongoDB
+
+# Global Navigation
+
+Universal <BackButton /> for page navigation
+
+Simple and consistent Material UI interface
+
+# Tech Stack
+Layer	Technology
+Frontend	Next.js 16 (App Router), React 18, TypeScript
+Styling	Material UI (MUI), Tailwind CSS, Emotion SSR
+Backend	Next.js API Routes, MongoDB Atlas
+Deployment	Vercel or Node.js Environment
+Version Control	Git & GitHub
+# Project Structure
+src/
+│
+├── app/
+│   ├── page.tsx                # Home page
+│   ├── layout.tsx              # App layout
+│   │
+│   ├── lots/                   # Parking lot overview
+│   │   ├── page.tsx            # List of lots with occupancy bars
+│   │   ├── components/
+│   │   │   ├── LotCard.tsx     # Individual lot info display
+│   │   │   └── SortButton.tsx  # Sort lots by availability
+│   │
+│   ├── enforcement/
+│   │   ├── page.tsx            # Enforcement dashboard
+│   │   └── components/
+│   │       └── AlertsTable.tsx # Unauthorized cars list
+│   │
+│   ├── accidents/
+│   │   └── page.tsx            # Accident/incident reporting form
+│   │
+│   └── api/
+│       ├── lots/
+│       │   ├── route.ts        # GET lots data
+│       │   └── scan/route.ts   # POST for scanning plate in/out
+│       └── enforcement/
+│           └── alerts/route.ts # GET unauthorized car alerts
+│
+├── components/
+│   └── BackButton.tsx          # Global back button
+│
+├── lib/
+│   └── mongodb.ts              # MongoDB logic + helpers
+│
+└── globals.css                 # Global Tailwind + MUI styles
+
+# MongoDB Schema
+lots Collection
+{
+  "lotID": "0",
+  "title": "Campus West Lot",
+  "capacity": 50,
+  "allows": {
+    "commuter": true,
+    "visitor": false
+  },
+  "scans": [
+    {
+      "plateNumber": "ABC1234",
+      "timestamp": "2025-11-08T09:30:00Z"
+    }
+  ]
+}
+
+cars Collection
+{
+  "plate": "XYZ789",
+  "owner": "Jane Doe"
+}
+
+# API Endpoints
+Method	Endpoint	Description
+GET	/api/lots	Retrieve all parking lots and scan counts
+POST	/api/lots/scan	Log vehicle entry/exit events
+GET	/api/enforcement/alerts	Fetch unauthorized vehicle alerts
+POST	/api/accidents	Submit an accident report Setup Instructions
+1️ Clone the Repository
+git clone https://github.com/kevmill129/Parking-Congestion-WebApp.git
+cd Parking-Congestion-WebApp
+
+2️ Install Dependencies
+npm install
+
+3️ Add Environment Variables
+
+Create a .env.local file:
+
+MONGODB_URI="your_mongodb_connection_string"
+
+4️ Run Development Server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Visit  http://localhost:3000
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+# Testing the App
+Page	Description
+/lots	View parking lots and availability
+/enforcement	Monitor unauthorized vehicle alerts
+/accidents	Submit new accident reports
+ Troubleshooting
+Issue	Possible Cause	Fix
+404 on /api/lots	Missing route file	Ensure src/app/api/lots/route.ts exists
+500 on /api/enforcement/alerts	Null or malformed scan data	Add null checks in findUnauthorizedPlatesOverTime()
+MongoDB connection failure	Invalid or missing env var	Verify MONGODB_URI in .env.local
+Hydration error	SSR mismatch in MUI	Use Emotion SSR setup and 'use client' directives properly
 
-## Learn More
+# Future Enhancements
+ 
+ Real Time Updates
 
-To learn more about Next.js, take a look at the following resources:
+ Authentication for admin/enforcement roles
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+ Geo-location support for lot mapping
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+ Vehicle registration management UI
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Parking projections/forecasting once a large enough sample size of data is gathered

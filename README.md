@@ -22,12 +22,12 @@ This system provides tools for administrators, enforcement officers, and visitor
 
 -[Future Enhancements](#Future)
 
-##Overview
+# Overview
 
 Parking Congestion Web App helps track real-time parking availability, detect overstayed or unauthorized vehicles, and file parking incident reports.
 It’s built using Next.js 16 and Material UI, with MongoDB as the backend data store.
 
- ##Key Users
+ # Key Users
 
 - Parking Administrators – Manage lots and view availability
 
@@ -35,7 +35,7 @@ It’s built using Next.js 16 and Material UI, with MongoDB as the backend data 
 
 - Staff/Users – Submit accident or incident reports
 
-##Features
+# Features
  -Lot Overview Dashboard
 
 -Displays each parking lot’s:
@@ -84,7 +84,7 @@ Universal <BackButton /> for page navigation
 
 Simple and consistent Material UI interface
 
-##Tech Stack
+# Tech Stack
 Layer	Technology
 Frontend	Next.js 16 (App Router), React 18, TypeScript
 Styling	Material UI (MUI), Tailwind CSS, Emotion SSR
@@ -95,7 +95,7 @@ Version Control	Git & GitHub
 
 
 
-##API Endpoints
+# API Endpoints
 Method	Endpoint	Description
 GET	/api/lots	Retrieve all parking lots and scan counts
 
@@ -125,7 +125,7 @@ npm run dev
 Visit  http://localhost:3000
 
 
-##Future Enhancements
+# Future Enhancements
  
  Real Time Updates
 
@@ -136,9 +136,10 @@ Visit  http://localhost:3000
  Vehicle registration management UI
 
 Parking projections/forecasting once a large enough sample size of data is gathered
-##MongoDB Schema
+
+# MongoDB Schema
 ![Schema example](./examplemongodb.png)
 
-##Example photo of Functionality
+# Example photo of Functionality
 ![Parking App Dashboard](./Example.png)
 

@@ -172,3 +172,4 @@ Parking projections/forecasting once a large enough sample size of data is gathe
 
 
 ![Parking App Dashboard](./Example.png)
+![Schema example](./examplemongodb.png)

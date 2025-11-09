@@ -15,7 +15,7 @@ This system provides tools for administrators, enforcement officers, and visitor
 
 -[MongoDB Schema](#MongoDBSchema)
 
--[API Endpoints](#APIEndpoints)
+-[API Endpoints](#API-endpoints)
 
 -[Setup Instructions](#Setup)
 
@@ -36,75 +36,54 @@ It’s built using Next.js 16 and Material UI, with MongoDB as the backend data 
 
 # Features
 
--Lot Overview Dashboard
+### Lot Overview Dashboard
 
--Displays each parking lot’s:
+Displays each parking lot’s:
 
--Color Coded Occupancy rate (Red for highest, orange for medium, green for lightest)
+- Color Coded Availability (Red for lowest, orange for medium, green for highest)
 
--Available vs. total capacity
+- Available vs. total capacity
 
--Sort lots by availability (ascending/descending)
+- Sort lots by current availability/walking distance/weighted average
 
--Sort by distance from
+### Enforcement Dashboard
 
--Dynamic data pulled from MongoDB
+- Detects unauthorized plates parked longer than 15 minutes
+- Auto-refreshes every 60 seconds
+- Color-coded alerts:
 
--Enforcement Dashboard
+  - 🟡 Minor: 15–30 minutes
+  - 🔴 Major: >30 minutes
 
--Detects unauthorized plates parked longer than 15 minutes
-
--Auto-refreshes every 60 seconds
-
--Color-coded alerts:
-
-🟡 Minor: 15–30 minutes
-
-🔴 Major: >30 minutes
-
-##Accident Reporting
-
-Submit detailed incident reports with:
-
--Reporter name
-
--License plate
-
--Lot ID
-
--Description
-
--Photo upload
-
--Timestamp (createdAt)
-
--Automatically saved to MongoDB
-
--Global Navigation
-
--Universal <BackButton /> for page navigation
-
--Simple and consistent Material UI interface
+- Simple and consistent Material UI interface
 
 # Tech Stack
 
-Layer Technology
-Frontend Next.js 16 (App Router), React 18, TypeScript
-Styling Material UI (MUI), Tailwind CSS, Emotion SSR
-Backend Next.js API Routes, MongoDB Atlas
-Deployment Vercel or Node.js Environment
-Version Control Git & GitHub
+### Frontend
 
-# API Endpoints
+Next.js 16 (App Router), React 18, TypeScript
 
-Method Endpoint Description
-GET /api/lots Retrieve all parking lots and scan counts
+#### Styling
 
-POST /api/lots/scan Log vehicle entry/exit events
+Material UI (MUI)
 
-GET /api/enforcement/alerts Fetch unauthorized vehicle alerts
+### Backend
 
-POST /api/accidents Submit an accident report Setup Instructions
+Next.js API Routes, MongoDB Atlas
+
+### Deployment
+
+Serverless deployment on Netlify
+
+## API Endpoints
+
+| Method | Endpoint                | Description                               |
+| ------ | ----------------------- | ----------------------------------------- |
+| GET    | /api/lots               | Retrieve all parking lots and scan counts |
+| POST   | /api/scan               | Log vehicle entry/exit events             |
+| GET    | /api/enforcement/alerts | Fetch unauthorized vehicle alerts         |
+
+## Setup
 
 1. Clone the Repository
 
@@ -125,7 +104,7 @@ POST /api/accidents Submit an accident report Setup Instructions
 
 Visit http://localhost:3000
 
-# Future Enhancements
+## Future Enhancements
 
 - Authentication for admin/enforcement roles
 
@@ -133,10 +112,10 @@ Visit http://localhost:3000
 
 - Parking projections/forecasting once a large enough sample size of data is gathered
 
-# MongoDB Schema
+## MongoDB Schema
 
 ![Schema example](./examplemongodb.png)
 
-# Example photo of Functionality
+## Example photo of Functionality
 
 ![Parking App Dashboard](./app.png)

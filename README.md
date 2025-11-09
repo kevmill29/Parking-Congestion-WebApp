@@ -6,32 +6,28 @@ This system provides tools for administrators, enforcement officers, and visitor
 
 # TABLE OF CONTENTS
 
-Overview
+-[Overview](#overview)
 
-Features
+-[Features](#features)
 
-Tech Stack
+-[Tech Stack](#techstack)
 
-Project Structure
+-[Project Structure](#projectstructure)
 
-MongoDB Schema
+-[MongoDB Schema](#MongoDBSchema)
 
-API Endpoints
+-[API Endpoints](#APIEndpoints)
 
-Setup Instructions
+-[Setup Instructions](#Setup)
 
-Testing the App
+-[Future Enhancements](#Future)
 
-Troubleshooting
-
-Future Enhancements
-
-# Overview
+##Overview
 
 Parking Congestion Web App helps track real-time parking availability, detect overstayed or unauthorized vehicles, and file parking incident reports.
 It’s built using Next.js 16 and Material UI, with MongoDB as the backend data store.
 
- # Key Users
+ ##Key Users
 
 - Parking Administrators – Manage lots and view availability
 
@@ -39,7 +35,7 @@ It’s built using Next.js 16 and Material UI, with MongoDB as the backend data 
 
 - Staff/Users – Submit accident or incident reports
 
-# Features
+##Features
  -Lot Overview Dashboard
 
 -Displays each parking lot’s:
@@ -52,19 +48,19 @@ It’s built using Next.js 16 and Material UI, with MongoDB as the backend data 
 
 -Dynamic data pulled from MongoDB
 
- # Enforcement Dashboard
+ -Enforcement Dashboard
 
-Detects unauthorized plates parked longer than 15 minutes
+-Detects unauthorized plates parked longer than 15 minutes
 
-Auto-refreshes every 60 seconds
+-Auto-refreshes every 60 seconds
 
-Color-coded alerts:
+-Color-coded alerts:
 
 🟡 Minor: 15–30 minutes
 
 🔴 Major: >30 minutes
 
-# Accident Reporting
+##Accident Reporting
 
 Submit detailed incident reports with:
 
@@ -82,13 +78,13 @@ Timestamp (createdAt)
 
 Automatically saved to MongoDB
 
-# Global Navigation
+##Global Navigation
 
 Universal <BackButton /> for page navigation
 
 Simple and consistent Material UI interface
 
-# Tech Stack
+##Tech Stack
 Layer	Technology
 Frontend	Next.js 16 (App Router), React 18, TypeScript
 Styling	Material UI (MUI), Tailwind CSS, Emotion SSR
@@ -99,7 +95,7 @@ Version Control	Git & GitHub
 
 
 
-# API Endpoints
+##API Endpoints
 Method	Endpoint	Description
 GET	/api/lots	Retrieve all parking lots and scan counts
 POST	/api/lots/scan	Log vehicle entry/exit events
@@ -125,7 +121,7 @@ npm run dev
 Visit  http://localhost:3000
 
 
-# Future Enhancements
+##Future Enhancements
  
  Real Time Updates
 
@@ -136,9 +132,9 @@ Visit  http://localhost:3000
  Vehicle registration management UI
 
 Parking projections/forecasting once a large enough sample size of data is gathered
-# MongoDB Schema
+##MongoDB Schema
 ![Schema example](./examplemongodb.png)
 
-# Example photo of Functionality
+##Example photo of Functionality
 ![Parking App Dashboard](./Example.png)
 

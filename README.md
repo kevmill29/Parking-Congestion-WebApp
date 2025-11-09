@@ -97,29 +97,7 @@ Deployment	Vercel or Node.js Environment
 Version Control	Git & GitHub
 
 
-# MongoDB Schema
-lots Collection
-{
-  "lotID": "0",
-  "title": "Campus West Lot",
-  "capacity": 50,
-  "allows": {
-    "commuter": true,
-    "visitor": false
-  },
-  "scans": [
-    {
-      "plateNumber": "ABC1234",
-      "timestamp": "2025-11-08T09:30:00Z"
-    }
-  ]
-}
 
-cars Collection
-{
-  "plate": "XYZ789",
-  "owner": "Jane Doe"
-}
 
 # API Endpoints
 Method	Endpoint	Description
@@ -169,7 +147,8 @@ Hydration error	SSR mismatch in MUI	Use Emotion SSR setup and 'use client' direc
  Vehicle registration management UI
 
 Parking projections/forecasting once a large enough sample size of data is gathered
-
+# MongoDB Schema
+![Schema example](./examplemongodb.png)
 
 ![Parking App Dashboard](./Example.png)
-![Schema example](./examplemongodb.png)
+

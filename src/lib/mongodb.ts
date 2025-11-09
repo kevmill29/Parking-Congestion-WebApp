@@ -1,17 +1,20 @@
 import { MongoClient } from "mongodb";
 
 const uri = process.env.MONGODB_URI || "";
-const client = new MongoClient(uri, { socketTimeoutMS: 10000 });
+const client = new MongoClient(uri, {
+  maxIdleTimeMS: 500,
+  maxPoolSize: 100,
+  maxConnecting: 2,
+});
 
 /**
  * Removes a specific plate number from the scans array based on the provided lot ID.
  */
 export async function scanPlateOut(plateNumber: string, lotID: string) {
   const lotsColl = client.db("ParkingApp").collection("lots");
-  await lotsColl.updateOne(
-    { lotID },
-    { $pull: { scans: { plateNumber } } } as any
-  );
+  await lotsColl.updateOne({ lotID }, {
+    $pull: { scans: { plateNumber } },
+  } as any);
 }
 
 /**
@@ -77,7 +80,11 @@ export async function findUnauthorizedPlatesOverTime() {
   // Get all lots and their scanned plates
   const lots = await lotsColl.find({}).toArray();
   const now = new Date();
-  const alerts: Array<{ plateNumber: string; lotID: string; minutesParked: number }> = [];
+  const alerts: Array<{
+    plateNumber: string;
+    lotID: string;
+    minutesParked: number;
+  }> = [];
 
   for (const lot of lots) {
     if (!Array.isArray(lot.scans)) continue;
@@ -107,3 +114,38 @@ export async function findUnauthorizedPlatesOverTime() {
   return alerts;
 }
 
+const generateRandomPlate = () => {
+  const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  const numbers = "0123456789";
+
+  let plate = "";
+  for (let i = 0; i < 3; i++) {
+    plate += letters.charAt(Math.floor(Math.random() * letters.length));
+  }
+  for (let i = 0; i < 4; i++) {
+    plate += numbers.charAt(Math.floor(Math.random() * numbers.length));
+  }
+};
+
+export async function testAddCars(lotID: string) {
+  const lotsColl = client.db("ParkingApp").collection("lots");
+  console.log(lotsColl);
+  const newCars = [];
+  const carsToAdd = Math.random() * 10 + 10;
+  for (let i = 0; i < carsToAdd; i++) {
+    newCars.push(generateRandomPlate());
+  }
+
+  lotsColl.findOneAndUpdate(
+    { lotID: lotID },
+    { $push: { scans: { $each: newCars } } as any }
+  );
+}
+
+export async function testRemoveCars(lotID: string) {
+  const lotsColl = client.db("ParkingApp").collection("lots");
+  console.log(lotsColl);
+  for (let i = 0; i < 20; i++) {
+    lotsColl.findOneAndUpdate({ lotID: lotID }, { $pop: { scans: 1 } });
+  }
+}

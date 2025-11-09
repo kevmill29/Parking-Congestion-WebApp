@@ -5,23 +5,50 @@ import LinearProgress from "@mui/material/LinearProgress";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
-import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
-import SortIcon from "@mui/icons-material/Sort";
 import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 import { getDistance } from "@/lib/distances";
-interface Lot {
+export interface Lot {
   _id?: string;
   lotID: string;
   title: string;
   capacity: number;
   scans?: { plateNumber: string }[];
   scanCount: number;
-  available?: number;
+  available: number;
   location: string;
   allows: { [key: string]: boolean };
   distance: number;
 }
+
+interface LotRange {
+  distance: {
+    min: number;
+    max: number;
+  };
+  spots: {
+    min: number;
+    max: number;
+  };
+}
+
+const calcRanges = (lots: Lot[]): LotRange => {
+  let minDistance = Infinity,
+    maxDistance = -Infinity,
+    minSpots = Infinity,
+    maxSpots = -Infinity;
+
+  lots.forEach((lot) => {
+    minDistance = lot.distance < minDistance ? lot.distance : minDistance;
+    maxDistance = lot.distance > maxDistance ? lot.distance : maxDistance;
+    minSpots = lot.available < minSpots ? lot.available : minSpots;
+    maxSpots = lot.available > maxSpots ? lot.available : maxSpots;
+  });
+  return {
+    distance: { min: minDistance, max: maxDistance },
+    spots: { min: minSpots, max: maxSpots },
+  };
+};
 
 export default function LotsListPage() {
   const [lots, setLots] = useState<Lot[]>([]);
@@ -34,9 +61,22 @@ export default function LotsListPage() {
     "science-hall" | "lecture-center"
   >("science-hall");
 
+  const [sortMode, setSortMode] = useState<"hybrid" | "distance" | "spots">(
+    "hybrid"
+  );
+
   const buildingCoords = {
     "science-hall": { lat: 41.743050942491706, long: -74.08055594997064 },
     "lecture-center": { lat: 41.74267224856954, long: -74.08419207155384 },
+  };
+
+  const scoreLot = (lot: Lot, range: LotRange) => {
+    const distanceScore =
+      (range.distance.max - lot.distance) /
+      (range.distance.max - range.distance.min);
+    const spotsScore =
+      (lot.available - range.spots.min) / (range.spots.max - range.spots.min);
+    return distanceScore * 0.5 + spotsScore * 0.5;
   };
 
   useEffect(() => {
@@ -51,12 +91,11 @@ export default function LotsListPage() {
         const filtered = processed.filter((item: Lot) => {
           return item.allows[displayMode] == true;
         });
-        const filteredWithDistance = filtered.map((item: Lot) => {
+        const filteredWithDistance: Lot[] = filtered.map((item: Lot) => {
           const coords = item.location
             .split(",")
             .map((item) => parseFloat(item));
-          console.log(coords);
-          console.log(buildingCoords[targetBuilding]);
+
           const distance = getDistance(
             buildingCoords[targetBuilding].lat,
             buildingCoords[targetBuilding].long,
@@ -65,25 +104,35 @@ export default function LotsListPage() {
           );
           return { ...item, distance };
         });
-
-        setLots(filteredWithDistance);
+        let sorted: Lot[];
+        switch (sortMode) {
+          case "distance":
+            sorted = filteredWithDistance.sort((a, b) => {
+              return a.distance - b.distance;
+            });
+            setLots(sorted);
+            break;
+          case "hybrid":
+            const ranges = calcRanges(filteredWithDistance);
+            sorted = filteredWithDistance.sort((a, b) => {
+              const scoreA = scoreLot(a, ranges);
+              const scoreB = scoreLot(b, ranges);
+              return scoreB - scoreA;
+            });
+            setLots(filteredWithDistance);
+            break;
+          case "spots":
+          default:
+            sorted = filteredWithDistance.sort((a, b) => {
+              return b.available - a.available;
+            });
+            setLots(sorted);
+            break;
+        }
       })
       .catch(console.error)
       .finally(() => setLoading(false));
-  }, [displayMode, targetBuilding]);
-
-  // Sort handler
-  const handleSort = () => {
-    setSortAsc((prev) => !prev);
-    setLots((prev) =>
-      [...prev].sort(
-        (a, b) =>
-          sortAsc
-            ? (b.available ?? 0) - (a.available ?? 0) // Descending
-            : (a.available ?? 0) - (b.available ?? 0) // Ascending
-      )
-    );
-  };
+  }, [displayMode, targetBuilding, sortMode]);
 
   const getColor = (percent: number) => {
     if (percent >= 90) return "error"; // red
@@ -96,6 +145,9 @@ export default function LotsListPage() {
   };
   const handleBuildingPicker = (e) => {
     setTargetBuilding(e.target.value);
+  };
+  const handleSortMode = (e) => {
+    setSortMode(e.target.value);
   };
 
   if (loading) {
@@ -126,10 +178,10 @@ export default function LotsListPage() {
             labelId="displayModePickerLabel"
             id="displayModePicker"
             value={displayMode}
-            label="Age"
+            label="Display Mode"
             onChange={handleModePicker}
           >
-            <MenuItem value={"resident"}>Resident Student</MenuItem>
+            {/* <MenuItem value={"resident"}>Resident Student</MenuItem> */}
             <MenuItem value={"commuter"}>Commuter Student</MenuItem>
             <MenuItem value={"facstaff"}>Faculty/Staff</MenuItem>{" "}
             <MenuItem value={"visitor"}>Visitor</MenuItem>
@@ -141,20 +193,27 @@ export default function LotsListPage() {
             labelId="targetBuildingLabel"
             id="targetBuilding"
             value={targetBuilding}
-            label="Age"
+            label="Target Building"
             onChange={handleBuildingPicker}
           >
             <MenuItem value={"science-hall"}>Science Hall</MenuItem>
             <MenuItem value={"lecture-center"}>Lecture Center</MenuItem>
           </Select>
         </FormControl>
-        <Button
-          variant="outlined"
-          startIcon={<SortIcon />}
-          onClick={handleSort}
-        >
-          Sort by Availability {sortAsc ? "(↓)" : "(↑)"}
-        </Button>
+        <FormControl>
+          <InputLabel id="sortModeLabel">Sort By</InputLabel>
+          <Select
+            labelId="sortModeLabel"
+            id="sortMode"
+            value={sortMode}
+            label="Sort Mode"
+            onChange={handleSortMode}
+          >
+            <MenuItem value={"hybrid"}>Hybrid</MenuItem>
+            <MenuItem value={"spots"}>Availability</MenuItem>
+            <MenuItem value={"distance"}>Distance</MenuItem>
+          </Select>
+        </FormControl>
       </Stack>
 
       {lots.length === 0 && (

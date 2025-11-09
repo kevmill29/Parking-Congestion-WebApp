@@ -1,4 +1,4 @@
-![Parking App Dashboard](./Example.png)
+
 Parking Congestion Web App
 
 A full-stack Next.js + MongoDB application for managing parking lots, detecting unauthorized vehicles, and reporting parking-related incidents.
@@ -203,3 +203,6 @@ Hydration error	SSR mismatch in MUI	Use Emotion SSR setup and 'use client' direc
  Vehicle registration management UI
 
 Parking projections/forecasting once a large enough sample size of data is gathered
+
+
+![Parking App Dashboard](./Example.png)

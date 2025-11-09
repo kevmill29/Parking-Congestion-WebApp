@@ -1,5 +1,5 @@
 
-Parking Congestion Web App
+Parking Detection System Web App
 
 A full-stack Next.js + MongoDB application for managing parking lots, detecting unauthorized vehicles, and reporting parking-related incidents.
 This system provides tools for administrators, enforcement officers, and visitors to view, monitor, and report parking lot activity efficiently.

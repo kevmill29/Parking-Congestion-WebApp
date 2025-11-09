@@ -102,11 +102,14 @@ export async function findUnauthorizedPlatesOverTime() {
   for (const lot of lots) {
     if (!Array.isArray(lot.scans)) continue;
 
-    for (const scan of lot.scans) {
-      const { plateNumber, timestamp } = scan;
-      if (!plateNumber || !timestamp) continue;
+for (const scan of lot.scans) {
+  if (!scan || typeof scan !== 'object') continue; // skip null or malformed entries
 
-      const enteredAt = new Date(timestamp);
+  const { plateNumber, timestamp } = scan;
+  if (!plateNumber || !timestamp) continue;
+
+  const enteredAt = new Date(timestamp);
+
       const diffMinutes = (now.getTime() - enteredAt.getTime()) / 60000;
 
       // alert only if plate unregistered + >15min parked

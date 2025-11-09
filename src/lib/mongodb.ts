@@ -1,12 +1,28 @@
 import { MongoClient } from "mongodb";
 
+// ✅ Use your environment variable from .env.local
 const uri = process.env.MONGODB_URI || "";
+if (!uri) throw new Error("Missing MONGODB_URI in environment variables");
+
+// ✅ Create client with global caching for hot reload safety
 const client = new MongoClient(uri, { socketTimeoutMS: 10000 });
+let clientPromise: Promise<MongoClient>;
+
+if (!(global as any)._mongoClientPromise) {
+  (global as any)._mongoClientPromise = client.connect();
+}
+clientPromise = (global as any)._mongoClientPromise;
+
+// ✅ Helper to get an active client
+export async function getClient() {
+  return clientPromise;
+}
 
 /**
  * Removes a specific plate number from the scans array based on the provided lot ID.
  */
 export async function scanPlateOut(plateNumber: string, lotID: string) {
+  const client = await getClient();
   const lotsColl = client.db("ParkingApp").collection("lots");
   await lotsColl.updateOne(
     { lotID },
@@ -18,13 +34,15 @@ export async function scanPlateOut(plateNumber: string, lotID: string) {
  * Adds a plate to the scans list for a lot (with a timestamp).
  */
 export async function scanPlateIn(plateNumber: string, lotID: string) {
+  const client = await getClient();
   const lotsColl = client.db("ParkingApp").collection("lots");
+
   const newScan = {
     plateNumber,
-    timestamp: new Date(),
+    timestamp: new Date(), // standardized field name
   };
 
-  // Ensure duplicate plates are removed before adding
+  // Prevent duplicates
   await scanPlateOut(plateNumber, lotID);
 
   const result = await lotsColl.findOneAndUpdate(
@@ -33,7 +51,7 @@ export async function scanPlateIn(plateNumber: string, lotID: string) {
     { returnDocument: "after" }
   );
 
-  console.log(result);
+  console.log("Scan added:", result);
   return result;
 }
 
@@ -41,16 +59,16 @@ export async function scanPlateIn(plateNumber: string, lotID: string) {
  * Returns summary data for all parking lots, including scan counts.
  */
 export async function getLotData() {
+  const client = await getClient();
   const lotsColl = client.db("ParkingApp").collection("lots");
 
-  const result: Array<any> = await lotsColl
+  const result = await lotsColl
     .aggregate([
       {
         $project: {
           lotID: 1,
           title: 1,
           allows: 1,
-          location: 1,
           capacity: 1,
           scanCount: { $size: { $ifNull: ["$scans", []] } },
         },
@@ -58,42 +76,40 @@ export async function getLotData() {
     ])
     .toArray();
 
+  console.log("Fetched lots:", result.length);
   return result;
 }
 
 /**
  * Finds unregistered plates that have been parked for more than 15 minutes.
- * Matches your schema: scans: [{ plateNumber, timeEntered }]
+ * Uses `timestamp` instead of old `timeEntered`.
  */
 export async function findUnauthorizedPlatesOverTime() {
+  const client = await getClient();
   const db = client.db("ParkingApp");
+
   const carsColl = db.collection("cars"); // registered vehicles
   const lotsColl = db.collection("lots");
 
-  // Get all registered plates
   const registered = await carsColl.find({}).toArray();
   const registeredPlates = new Set(registered.map((c) => c.plate));
 
-  // Get all lots and their scanned plates
   const lots = await lotsColl.find({}).toArray();
   const now = new Date();
+
   const alerts: Array<{ plateNumber: string; lotID: string; minutesParked: number }> = [];
 
   for (const lot of lots) {
     if (!Array.isArray(lot.scans)) continue;
 
     for (const scan of lot.scans) {
-      const { plateNumber, timeEntered } = scan;
+      const { plateNumber, timestamp } = scan;
+      if (!plateNumber || !timestamp) continue;
 
-      // Skip invalid or missing timestamps
-      if (!plateNumber || !timeEntered) continue;
-
-      // Parse timeEntered safely (e.g., "2025-11-08 09:30AM EDT")
-      const enteredAt = new Date(timeEntered.replace("EDT", "GMT-4")); // handle timezone
-
+      const enteredAt = new Date(timestamp);
       const diffMinutes = (now.getTime() - enteredAt.getTime()) / 60000;
 
-      // If plate not registered and parked >15 min
+      // alert only if plate unregistered + >15min parked
       if (!registeredPlates.has(plateNumber) && diffMinutes >= 15) {
         alerts.push({
           plateNumber,
@@ -104,6 +120,6 @@ export async function findUnauthorizedPlatesOverTime() {
     }
   }
 
+  console.log("Unauthorized alerts:", alerts.length);
   return alerts;
 }
-

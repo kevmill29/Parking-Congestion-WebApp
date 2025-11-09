@@ -1,36 +1,142 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Parking Detection System Web App
 
-## Getting Started
+A full-stack Next.js application for managing parking lots, detecting unauthorized vehicles, and reporting parking-related incidents.
+This system provides tools for administrators, enforcement officers, and visitors to view, monitor, and report parking lot activity efficiently.
 
-First, run the development server:
+# TABLE OF CONTENTS
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+-[Overview](#overview)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+-[Features](#features)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+-[Tech Stack](#techstack)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+-[Project Structure](#projectstructure)
 
-## Learn More
+-[MongoDB Schema](#MongoDBSchema)
 
-To learn more about Next.js, take a look at the following resources:
+-[API Endpoints](#APIEndpoints)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+-[Setup Instructions](#Setup)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+-[Future Enhancements](#Future)
 
-## Deploy on Vercel
+# Overview
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Parking Congestion Web App helps track real-time parking availability, detect overstayed or unauthorized vehicles, and file parking incident reports.
+It’s built using Next.js 16 and Material UI, with MongoDB as the backend data store.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+# Key Users
+
+- Parking Administrators – Manage lots and view availability
+
+- Enforcement Officers – Monitor unauthorized vehicles
+
+- Staff/Users – Submit accident or incident reports
+
+# Features
+
+-Lot Overview Dashboard
+
+-Displays each parking lot’s:
+
+-Color Coded Occupancy rate (Red for highest, orange for medium, green for lightest)
+
+-Available vs. total capacity
+
+-Sort lots by availability (ascending/descending)
+
+-Sort by distance from
+
+-Dynamic data pulled from MongoDB
+
+-Enforcement Dashboard
+
+-Detects unauthorized plates parked longer than 15 minutes
+
+-Auto-refreshes every 60 seconds
+
+-Color-coded alerts:
+
+🟡 Minor: 15–30 minutes
+
+🔴 Major: >30 minutes
+
+##Accident Reporting
+
+Submit detailed incident reports with:
+
+-Reporter name
+
+-License plate
+
+-Lot ID
+
+-Description
+
+-Photo upload
+
+-Timestamp (createdAt)
+
+-Automatically saved to MongoDB
+
+-Global Navigation
+
+-Universal <BackButton /> for page navigation
+
+-Simple and consistent Material UI interface
+
+# Tech Stack
+
+Layer Technology
+Frontend Next.js 16 (App Router), React 18, TypeScript
+Styling Material UI (MUI), Tailwind CSS, Emotion SSR
+Backend Next.js API Routes, MongoDB Atlas
+Deployment Vercel or Node.js Environment
+Version Control Git & GitHub
+
+# API Endpoints
+
+Method Endpoint Description
+GET /api/lots Retrieve all parking lots and scan counts
+
+POST /api/lots/scan Log vehicle entry/exit events
+
+GET /api/enforcement/alerts Fetch unauthorized vehicle alerts
+
+POST /api/accidents Submit an accident report Setup Instructions
+
+1. Clone the Repository
+
+   ````git clone https://github.com/kevmill129/Parking-Congestion-WebApp.git
+   cd Parking-Congestion-WebApp```
+
+   ````
+
+2. Install Dependencies
+   npm install
+
+3. Add Environment Variables
+   Create a .env.local file:
+   `MONGODB_URI="your_mongodb_connection_string"`
+
+4. Run Development Server
+   `npm run dev`
+
+Visit http://localhost:3000
+
+# Future Enhancements
+
+- Authentication for admin/enforcement roles
+
+- Vehicle registration management UI
+
+- Parking projections/forecasting once a large enough sample size of data is gathered
+
+# MongoDB Schema
+
+![Schema example](./examplemongodb.png)
+
+# Example photo of Functionality
+
+![Parking App Dashboard](./app.png)

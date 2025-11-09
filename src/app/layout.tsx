@@ -6,7 +6,7 @@ import "./globals.css";
 import { Container } from "@mui/material";
 
 export const metadata: Metadata = {
-  title: "spotfinder",
+  title: "LotSight",
   description: "an app for parking at SUNY New Paltz",
 };
 

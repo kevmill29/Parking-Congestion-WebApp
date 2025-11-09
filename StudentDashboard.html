@@ -1,7 +1,143 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Student Dashboard</title>
+  <meta charset="UTF-8" />
+  <title>Student Parking Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="styles.css" />
 </head>
+<body class="page">
+  <header class="page-header">
+    <a href="/" class="back-link">← Back to Home</a>
+    <h1 class="page-title">🎓 Student Parking Dashboard</h1>
+    <p class="page-subtitle">
+      Check campus parking congestion in real time and find the best lots to park in.
+    </p>
+  </header>
+
+  <main class="page-main">
+    <!-- Top stats -->
+    <section class="stats-grid">
+      <article class="stat-card">
+        <p class="stat-label">Lots Monitored</p>
+        <p class="stat-value">12</p>
+        <p class="stat-subtitle">Total campus parking lots</p>
+      </article>
+
+      <article class="stat-card">
+        <p class="stat-label">Spots Available</p>
+        <p class="stat-value">238</p>
+        <p class="stat-subtitle">450 total capacity</p>
+      </article>
+
+      <article class="stat-card">
+        <p class="stat-label">Currently Occupied</p>
+        <p class="stat-value">212</p>
+        <p class="stat-subtitle">Scanned vehicles on campus</p>
+      </article>
+
+      <article class="stat-card">
+        <p class="stat-label">Avg. Occupancy</p>
+        <p class="stat-value">71.4%</p>
+        <p class="stat-subtitle">Across all lots</p>
+      </article>
+    </section>
+
+    <!-- Main layout: map + side panels -->
+    <section class="layout-grid">
+      <!-- Map / main panel -->
+      <section class="panel panel-map">
+        <header class="panel-header">
+          <h2 class="panel-title">🗺️ Campus Parking Map</h2>
+          <p class="panel-description">
+            Use the map to visualize congestion. Green lots are less full; red lots are near capacity.
+          </p>
+        </header>
+
+        <div class="map-placeholder">
+          <!-- Replace this with your actual map component / iframe -->
+          <p>Parking map goes here (Leaflet, Google Maps, etc.).</p>
+        </div>
+      </section>
+
+      <!-- Sidebar: suggested lots + alerts -->
+      <section class="panel-group">
+        <!-- Suggested lots -->
+        <section class="panel">
+          <header class="panel-header">
+            <h2 class="panel-title">✅ Suggested Lots (Least Congested)</h2>
+          </header>
+
+          <div class="table-container">
+            <table class="table table-compact">
+              <thead>
+                <tr>
+                  <th>Lot</th>
+                  <th class="align-right">Available</th>
+                  <th class="align-right">% Full</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>North Student Lot</td>
+                  <td class="align-right">42</td>
+                  <td class="align-right">38.0%</td>
+                </tr>
+                <tr>
+                  <td>Library Overflow</td>
+                  <td class="align-right">21</td>
+                  <td class="align-right">55.2%</td>
+                </tr>
+                <tr>
+                  <td>Arts Center Lot</td>
+                  <td class="align-right">17</td>
+                  <td class="align-right">60.0%</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Read-only alerts summary -->
+        <section class="panel">
+          <header class="panel-header">
+            <h2 class="panel-title">⚠️ Campus Alerts (Read-Only)</h2>
+            <p class="panel-description">
+              3 active alerts for unauthorized vehicles – please follow campus parking rules.
+            </p>
+          </header>
+
+          <div class="table-container">
+            <table class="table table-compact">
+              <thead>
+                <tr>
+                  <th>Plate</th>
+                  <th>Lot</th>
+                  <th class="align-right">Minutes Parked</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>ABC-1234</td>
+                  <td>Faculty Lot A</td>
+                  <td class="align-right">46</td>
+                </tr>
+                <tr>
+                  <td>JKL-9087</td>
+                  <td>Library Lot</td>
+                  <td class="align-right">32</td>
+                </tr>
+                <tr>
+                  <td>XYZ-5521</td>
+                  <td>Gym Lot</td>
+                  <td class="align-right">29</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </section>
+    </section>
+  </main>
+</body>
+</html>

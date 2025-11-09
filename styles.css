@@ -1,0 +1,213 @@
+/* ---------- Base ---------- */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Inter", "Segoe UI", Arial, sans-serif;
+}
+
+body.page {
+  background: #f4f6f9;
+  color: #222;
+  padding: 2rem;
+  line-height: 1.5;
+}
+
+a {
+  color: #0070f3;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+/* ---------- Page Header ---------- */
+.page-header {
+  margin-bottom: 2rem;
+}
+
+.page-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #111;
+  margin-top: 0.25rem;
+}
+
+.page-subtitle {
+  color: #555;
+  font-size: 1rem;
+  margin-top: 0.25rem;
+  max-width: 700px;
+}
+
+.back-link {
+  display: inline-block;
+  color: #0070f3;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+/* ---------- Stat Cards ---------- */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.stat-card {
+  background: #fff;
+  border-radius: 0.75rem;
+  padding: 1.25rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  transition: transform 0.15s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-3px);
+}
+
+.stat-label {
+  color: #777;
+  font-size: 0.9rem;
+}
+
+.stat-value {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin: 0.25rem 0;
+}
+
+.stat-subtitle {
+  color: #999;
+  font-size: 0.8rem;
+}
+
+/* ---------- Layout Grid ---------- */
+.layout-grid {
+  display: grid;
+  grid-template-columns: 2fr 1.2fr;
+  gap: 1.5rem;
+}
+
+.panel-group {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* For full-width tables (faculty) */
+.panel-wide {
+  grid-column: span 1;
+}
+
+/* ---------- Panels ---------- */
+.panel {
+  background: #fff;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.panel-header {
+  margin-bottom: 1rem;
+}
+
+.panel-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.panel-description {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+/* ---------- Map Placeholder ---------- */
+.map-placeholder {
+  background: linear-gradient(135deg, #cfe9ff, #eaf3ff);
+  border-radius: 0.5rem;
+  height: 350px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #0052a3;
+  font-weight: 500;
+}
+
+/* ---------- Tables ---------- */
+.table-container {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.table th,
+.table td {
+  border-bottom: 1px solid #ddd;
+  padding: 0.6rem;
+  text-align: left;
+}
+
+.table th {
+  background: #f1f3f6;
+  font-weight: 600;
+}
+
+.table-compact th,
+.table-compact td {
+  padding: 0.4rem 0.5rem;
+}
+
+.align-right {
+  text-align: right;
+}
+
+/* ---------- Row Highlights ---------- */
+.row-critical {
+  background: rgba(255, 0, 0, 0.05);
+}
+
+.row-high {
+  background: rgba(255, 165, 0, 0.08);
+}
+
+/* ---------- Congestion Lists ---------- */
+.congestion-lists {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.congestion-title {
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 0.4rem;
+}
+
+.congestion-list {
+  list-style: disc inside;
+  margin-left: 1rem;
+  color: #444;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 900px) {
+  .layout-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  body.page {
+    padding: 1rem;
+  }
+  .page-title {
+    font-size: 1.4rem;
+  }
+}

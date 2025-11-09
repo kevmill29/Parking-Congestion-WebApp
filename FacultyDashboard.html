@@ -1,7 +1,202 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Faculty Dashboard</title> 
+  <meta charset="UTF-8" />
+  <title>Faculty Parking Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="styles.css" />
 </head>
+<body class="page">
+  <header class="page-header">
+    <a href="/" class="back-link">← Back to Home</a>
+    <h1 class="page-title">🎓 Faculty &amp; Operations Dashboard</h1>
+    <p class="page-subtitle">
+      Monitor campus-wide parking congestion, identify critical lots, and review enforcement alerts.
+    </p>
+  </header>
+
+  <main class="page-main">
+    <!-- Top stats -->
+    <section class="stats-grid">
+      <article class="stat-card">
+        <p class="stat-label">Lots Monitored</p>
+        <p class="stat-value">12</p>
+        <p class="stat-subtitle">Total parking facilities</p>
+      </article>
+
+      <article class="stat-card">
+        <p class="stat-label">Total Capacity</p>
+        <p class="stat-value">450</p>
+        <p class="stat-subtitle">Parking spaces across campus</p>
+      </article>
+
+      <article class="stat-card">
+        <p class="stat-label">Currently Occupied</p>
+        <p class="stat-value">212</p>
+        <p class="stat-subtitle">Active scanned vehicles</p>
+      </article>
+
+      <article class="stat-card">
+        <p class="stat-label">Average Occupancy</p>
+        <p class="stat-value">71.4%</p>
+        <p class="stat-subtitle">Overall utilization</p>
+      </article>
+    </section>
+
+    <!-- Layout: lot utilization + alerts/congestion -->
+    <section class="layout-grid">
+      <!-- Left: Lot utilization table -->
+      <section class="panel panel-wide">
+        <header class="panel-header">
+          <h2 class="panel-title">🅿️ Parking Lot Utilization</h2>
+          <p class="panel-description">
+            Lots highlighted in red are above 90% capacity, and orange lots are between 70–90% full.
+          </p>
+        </header>
+
+        <div class="table-container">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Lot</th>
+                <th>Lot ID</th>
+                <th class="align-right">Capacity</th>
+                <th class="align-right">Occupied</th>
+                <th class="align-right">Available</th>
+                <th class="align-right">% Full</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="row-critical">
+                <td>Faculty Lot A</td>
+                <td>FAC-A</td>
+                <td class="align-right">60</td>
+                <td class="align-right">57</td>
+                <td class="align-right">3</td>
+                <td class="align-right">95.0%</td>
+              </tr>
+              <tr class="row-critical">
+                <td>Library Lot</td>
+                <td>LIB-1</td>
+                <td class="align-right">40</td>
+                <td class="align-right">37</td>
+                <td class="align-right">3</td>
+                <td class="align-right">92.5%</td>
+              </tr>
+              <tr class="row-high">
+                <td>Student Union Lot</td>
+                <td>SU-1</td>
+                <td class="align-right">75</td>
+                <td class="align-right">59</td>
+                <td class="align-right">16</td>
+                <td class="align-right">78.7%</td>
+              </tr>
+              <tr class="row-high">
+                <td>Gym Lot</td>
+                <td>GYM-N</td>
+                <td class="align-right">50</td>
+                <td class="align-right">39</td>
+                <td class="align-right">11</td>
+                <td class="align-right">78.0%</td>
+              </tr>
+              <tr>
+                <td>North Overflow</td>
+                <td>N-OVR</td>
+                <td class="align-right">90</td>
+                <td class="align-right">52</td>
+                <td class="align-right">38</td>
+                <td class="align-right">57.8%</td>
+              </tr>
+              <tr>
+                <td>Arts Center Lot</td>
+                <td>ART-S</td>
+                <td class="align-right">35</td>
+                <td class="align-right">18</td>
+                <td class="align-right">17</td>
+                <td class="align-right">51.4%</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Right column: alerts + congestion breakdown -->
+      <section class="panel-group">
+        <!-- Active alerts -->
+        <section class="panel">
+          <header class="panel-header">
+            <h2 class="panel-title">⚠️ Active Enforcement Alerts</h2>
+            <p class="panel-description">
+              3 vehicles flagged as unregistered and parked &gt; 15 minutes.
+            </p>
+          </header>
+          <div class="table-container">
+            <table class="table table-compact">
+              <thead>
+                <tr>
+                  <th>Plate</th>
+                  <th>Lot</th>
+                  <th class="align-right">Minutes</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>ABC-1234</td>
+                  <td>FAC-A</td>
+                  <td class="align-right">46</td>
+                </tr>
+                <tr>
+                  <td>JKL-9087</td>
+                  <td>LIB-1</td>
+                  <td class="align-right">32</td>
+                </tr>
+                <tr>
+                  <td>XYZ-5521</td>
+                  <td>SU-1</td>
+                  <td class="align-right">29</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Congestion breakdown -->
+        <section class="panel">
+          <header class="panel-header">
+            <h2 class="panel-title">📊 Congestion Breakdown</h2>
+            <p class="panel-description">
+              Highlighted lots that may need policy adjustments or communication to students.
+            </p>
+          </header>
+
+          <div class="congestion-lists">
+            <div class="congestion-group">
+              <h3 class="congestion-title">🔴 Critical (&gt;= 90% full): 2</h3>
+              <ul class="congestion-list">
+                <li>Faculty Lot A (FAC-A)</li>
+                <li>Library Lot (LIB-1)</li>
+              </ul>
+            </div>
+
+            <div class="congestion-group">
+              <h3 class="congestion-title">🟠 High (70–90% full): 2</h3>
+              <ul class="congestion-list">
+                <li>Student Union Lot (SU-1)</li>
+                <li>Gym Lot (GYM-N)</li>
+              </ul>
+            </div>
+
+            <div class="congestion-group">
+              <h3 class="congestion-title">🟢 Moderate (&lt; 70% full)</h3>
+              <ul class="congestion-list">
+                <li>North Overflow (N-OVR)</li>
+                <li>Arts Center Lot (ART-S)</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+      </section>
+    </section>
+  </main>
+</body>
+</html>

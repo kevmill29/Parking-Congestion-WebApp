@@ -124,17 +124,6 @@ npm run dev
 
 Visit  http://localhost:3000
 
-# Testing the App
-Page	Description
-/lots	View parking lots and availability
-/enforcement	Monitor unauthorized vehicle alerts
-/accidents	Submit new accident reports
- Troubleshooting
-Issue	Possible Cause	Fix
-404 on /api/lots	Missing route file	Ensure src/app/api/lots/route.ts exists
-500 on /api/enforcement/alerts	Null or malformed scan data	Add null checks in findUnauthorizedPlatesOverTime()
-MongoDB connection failure	Invalid or missing env var	Verify MONGODB_URI in .env.local
-Hydration error	SSR mismatch in MUI	Use Emotion SSR setup and 'use client' directives properly
 
 # Future Enhancements
  

@@ -3,23 +3,17 @@
 A full-stack Next.js application for managing parking lots, detecting unauthorized vehicles, and reporting parking-related incidents.
 This system provides tools for administrators, enforcement officers, and visitors to view, monitor, and report parking lot activity efficiently.
 
-# TABLE OF CONTENTS
+# Table of Contents
 
--[Overview](#overview)
-
--[Features](#features)
-
--[Tech Stack](#techstack)
-
--[Project Structure](#projectstructure)
-
--[MongoDB Schema](#MongoDBSchema)
-
--[API Endpoints](#API-endpoints)
-
--[Setup Instructions](#Setup)
-
--[Future Enhancements](#Future)
+- [Overview](#overview)
+- [Key Users](#key-users)
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [API Endpoints](#api-endpoints)
+- [Setup](#setup)
+- [Future Enhancements](#future-enhancements)
+- [MongoDB Schema](#mongodb-schema)
+- [Example photo of Functionality](#example-photo-of-functionality)
 
 # Overview
 
@@ -87,13 +81,14 @@ Serverless deployment on Netlify
 
 1. Clone the Repository
 
-   ````git clone https://github.com/kevmill129/Parking-Congestion-WebApp.git
-   cd Parking-Congestion-WebApp```
+   ```
+   git clone https://github.com/kevmill129/Parking-Congestion-WebApp.git
+   cd Parking-Congestion-WebApp
 
-   ````
+   ```
 
 2. Install Dependencies
-   npm install
+   `npm install`
 
 3. Add Environment Variables
    Create a .env.local file:

@@ -8,6 +8,9 @@ import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
 import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 import { getDistance } from "@/lib/distances";
+import DirectionsWalkIcon from "@mui/icons-material/DirectionsWalk";
+import { Icon } from "@mui/material";
+import NoCrashIcon from "@mui/icons-material/NoCrash";
 export interface Lot {
   _id?: string;
   lotID: string;
@@ -140,7 +143,7 @@ export default function LotsListPage() {
     return "success"; // green
   };
 
-  const handleModePicker = (e:any) => {
+  const handleModePicker = (e: any) => {
     setDisplayMode(e.target.value);
   };
   const handleBuildingPicker = (e: any) => {
@@ -164,7 +167,7 @@ export default function LotsListPage() {
   return (
     <main className="p-6 max-w-3xl mx-auto">
       <Typography variant="h4" gutterBottom>
-        Parking Lots Overview
+        Lots
       </Typography>
       <Stack
         direction="row"
@@ -173,7 +176,7 @@ export default function LotsListPage() {
         sx={{ mb: 2 }}
       >
         <FormControl>
-          <InputLabel id="displayModePickerLabel">Parking Type</InputLabel>
+          <InputLabel id="displayModePickerLabel">Permit Type</InputLabel>
           <Select
             labelId="displayModePickerLabel"
             id="displayModePicker"
@@ -182,8 +185,8 @@ export default function LotsListPage() {
             onChange={handleModePicker}
           >
             {/* <MenuItem value={"resident"}>Resident Student</MenuItem> */}
-            <MenuItem value={"commuter"}>Commuter Student</MenuItem>
-            <MenuItem value={"facstaff"}>Faculty/Staff</MenuItem>{" "}
+            <MenuItem value={"commuter"}>Commuter </MenuItem>
+            <MenuItem value={"facstaff"}>Fac/Staff</MenuItem>{" "}
             <MenuItem value={"visitor"}>Visitor</MenuItem>
           </Select>
         </FormControl>
@@ -209,8 +212,8 @@ export default function LotsListPage() {
             label="Sort Mode"
             onChange={handleSortMode}
           >
-            <MenuItem value={"hybrid"}>Hybrid</MenuItem>
-            <MenuItem value={"spots"}>Availability</MenuItem>
+            <MenuItem value={"hybrid"}>Best</MenuItem>
+            <MenuItem value={"spots"}>Spots</MenuItem>
             <MenuItem value={"distance"}>Distance</MenuItem>
           </Select>
         </FormControl>
@@ -222,47 +225,101 @@ export default function LotsListPage() {
         </Typography>
       )}
 
-      {lots.map((lot) => {
+      {lots.map((lot, lotIndex) => {
         const percent =
           lot.capacity > 0 ? (lot.scanCount / lot.capacity) * 100 : 0;
 
+        const isFirstChoice = lotIndex === 0;
         return (
           <Paper
             key={lot.lotID}
             elevation={3}
             sx={{
-              p: 2,
+              p: 0,
               mb: 2,
               borderRadius: 2,
-              display: "flex",
-              flexDirection: "column",
-              gap: 1,
+              border: isFirstChoice ? "2px solid" : undefined,
+              borderColor: isFirstChoice ? "success.main" : undefined,
             }}
           >
+            {isFirstChoice && (
+              <Box
+                sx={{
+                  backgroundColor: "success.main",
+                  p: 0.5,
+                  pl: 2,
+                  color: "Background",
+                  fontWeight: 500,
+                  mb: 0,
+                }}
+              >
+                Best Choice
+              </Box>
+            )}
             <Box
-              display="flex"
-              justifyContent="space-between"
-              alignItems="center"
+              sx={{
+                p: 2,
+                pt: isFirstChoice ? 1 : 2,
+                gap: 1,
+                display: "flex",
+                flexDirection: "column",
+              }}
             >
-              <Typography variant="h6">{lot.title}</Typography>
-              <Typography variant="body2" color="text.secondary">
-                {lot.distance.toFixed(2)}mi
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                {lot.available} / {lot.capacity} available
-              </Typography>
+              <Box
+                display="flex"
+                justifyContent="space-between"
+                alignItems="center"
+              >
+                <Typography variant="h6">{lot.title}</Typography>
+              </Box>
+              <Box
+                display="flex"
+                justifyContent="space-between"
+                alignItems="center"
+              >
+                <Box
+                  display="flex"
+                  justifyContent="space-between"
+                  alignItems="center"
+                >
+                  <Typography variant="h3">
+                    <DirectionsWalkIcon />
+                    {lot.distance.toFixed(2)}
+                    <span style={{ fontSize: "1rem", marginLeft: ".25rem" }}>
+                      mi
+                    </span>
+                  </Typography>
+                </Box>
+                <Box
+                  display="flex"
+                  justifyContent="space-between"
+                  alignItems="center"
+                >
+                  <Typography variant="h3">
+                    <NoCrashIcon />
+                    {lot.available}
+                    <span style={{ fontSize: "1rem", marginLeft: ".25rem" }}>
+                      spots
+                    </span>
+                  </Typography>
+                </Box>
+              </Box>
+
+              <LinearProgress
+                variant="determinate"
+                value={percent}
+                color={getColor(percent)}
+                sx={{ height: 10, borderRadius: 5 }}
+              />
+              <Box display="flex" justifyContent="space-between">
+                <Typography variant="caption" color="text.secondary">
+                  {Math.round(percent)}% occupied
+                </Typography>
+                <Typography variant="caption" color="text.secondary">
+                  {lot.available}/{lot.capacity} spots available
+                </Typography>
+              </Box>
             </Box>
-
-            <LinearProgress
-              variant="determinate"
-              value={percent}
-              color={getColor(percent)}
-              sx={{ height: 10, borderRadius: 5 }}
-            />
-
-            <Typography variant="caption" color="text.secondary">
-              {Math.round(percent)}% occupied
-            </Typography>
           </Paper>
         );
       })}

@@ -40,7 +40,7 @@ It’s built using Next.js 16 and Material UI, with MongoDB as the backend data 
 
 -Displays each parking lot’s:
 
--Occupancy rate (with MUI LinearProgress)
+-Color Coded Occupancy rate (Red for highest, orange for medium, green for lightest)
 
 -Available vs. total capacity
 

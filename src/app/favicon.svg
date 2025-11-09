@@ -1,21 +1,31 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="64" height="64"><svg id="SvgjsSvg1005" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 64 64">
   <defs>
     <style>
       .cls-1 {
-        fill: #003d7e;
+        fill: url(#linear-gradient);
       }
 
       .cls-2 {
-        fill: #f58426;
-      }
-
-      .cls-3 {
         fill: #fff;
       }
     </style>
+    <linearGradient id="SvgjsLinearGradient1004" x1="0" y1="32" x2="64" y2="32" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#5dcaef"></stop>
+      <stop offset=".05" stop-color="#60bbef"></stop>
+      <stop offset=".2" stop-color="#6c92f0"></stop>
+      <stop offset=".35" stop-color="#756ff0"></stop>
+      <stop offset=".51" stop-color="#7c55f1"></stop>
+      <stop offset=".66" stop-color="#8142f1"></stop>
+      <stop offset=".83" stop-color="#8436f1"></stop>
+      <stop offset="1" stop-color="#8633f2"></stop>
+    </linearGradient>
   </defs>
-  <rect class="cls-1" width="64" height="64" rx="7.99" ry="7.99"/>
-  <path class="cls-2" d="M60.68,7.22v46.48c0,4.42-3.58,8-8,8h-28.89c7.45-10.87,28.86-42.58,36.89-54.48Z"/>
-  <path class="cls-3" d="M35.21,38.02h-9.1v15.41h-8.9V10.56h18.67c4.3,0,7.74,1.11,10.3,3.32s3.84,5.63,3.84,10.27c0,5.06-1.28,8.64-3.84,10.73s-6.21,3.14-10.96,3.14ZM39.4,29.09c1.16-1.03,1.75-2.66,1.75-4.89s-.59-3.82-1.76-4.77-2.82-1.43-4.93-1.43h-8.35v12.62h8.35c2.11,0,3.76-.51,4.94-1.54Z"/>
-</svg>
+  <g id="SvgjsG1003" data-name="Layer 1">
+    <g>
+      <rect class="cls-1" width="64" height="64" rx="8.58" ry="8.58"></rect>
+      <path class="cls-2" d="M35.21,38.02h-9.1v15.41h-8.9V10.56h18.67c4.3,0,7.74,1.11,10.3,3.32s3.84,5.63,3.84,10.27c0,5.06-1.28,8.64-3.84,10.73s-6.21,3.14-10.96,3.14ZM39.4,29.09c1.16-1.03,1.75-2.66,1.75-4.89s-.59-3.82-1.76-4.77-2.82-1.43-4.93-1.43h-8.35v12.62h8.35c2.11,0,3.76-.51,4.94-1.54Z"></path>
+    </g>
+  </g>
+</svg><style>@media (prefers-color-scheme: light) { :root { filter: none; } }
+@media (prefers-color-scheme: dark) { :root { filter: none; } }
+</style></svg>

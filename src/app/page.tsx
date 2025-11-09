@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import LinearProgress from "@mui/material/LinearProgress";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -9,7 +9,7 @@ import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import SortIcon from "@mui/icons-material/Sort";
 import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
-
+import { getDistance } from "@/lib/distances";
 interface Lot {
   _id?: string;
   lotID: string;
@@ -18,7 +18,9 @@ interface Lot {
   scans?: { plateNumber: string }[];
   scanCount: number;
   available?: number;
+  location: string;
   allows: { [key: string]: boolean };
+  distance: number;
 }
 
 export default function LotsListPage() {
@@ -28,6 +30,14 @@ export default function LotsListPage() {
   const [displayMode, setDisplayMode] = useState<
     "resident" | "facstaff" | "visitor" | "commuter"
   >("commuter");
+  const [targetBuilding, setTargetBuilding] = useState<
+    "science-hall" | "lecture-center"
+  >("science-hall");
+
+  const buildingCoords = {
+    "science-hall": { lat: 41.743050942491706, long: -74.08055594997064 },
+    "lecture-center": { lat: 41.74267224856954, long: -74.08419207155384 },
+  };
 
   useEffect(() => {
     fetch("/api/lots")
@@ -41,12 +51,26 @@ export default function LotsListPage() {
         const filtered = processed.filter((item: Lot) => {
           return item.allows[displayMode] == true;
         });
+        const filteredWithDistance = filtered.map((item: Lot) => {
+          const coords = item.location
+            .split(",")
+            .map((item) => parseFloat(item));
+          console.log(coords);
+          console.log(buildingCoords[targetBuilding]);
+          const distance = getDistance(
+            buildingCoords[targetBuilding].lat,
+            buildingCoords[targetBuilding].long,
+            coords[0],
+            coords[1]
+          );
+          return { ...item, distance };
+        });
 
-        setLots(filtered);
+        setLots(filteredWithDistance);
       })
       .catch(console.error)
       .finally(() => setLoading(false));
-  }, [displayMode]);
+  }, [displayMode, targetBuilding]);
 
   // Sort handler
   const handleSort = () => {
@@ -68,7 +92,10 @@ export default function LotsListPage() {
   };
 
   const handleModePicker = (e) => {
-    console.log(e);
+    setDisplayMode(e.target.value);
+  };
+  const handleBuildingPicker = (e) => {
+    setTargetBuilding(e.target.value);
   };
 
   if (loading) {
@@ -94,10 +121,10 @@ export default function LotsListPage() {
         sx={{ mb: 2 }}
       >
         <FormControl>
-          <InputLabel id="demo-simple-select-label">Parking Type</InputLabel>
+          <InputLabel id="displayModePickerLabel">Parking Type</InputLabel>
           <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
+            labelId="displayModePickerLabel"
+            id="displayModePicker"
             value={displayMode}
             label="Age"
             onChange={handleModePicker}
@@ -106,6 +133,19 @@ export default function LotsListPage() {
             <MenuItem value={"commuter"}>Commuter Student</MenuItem>
             <MenuItem value={"facstaff"}>Faculty/Staff</MenuItem>{" "}
             <MenuItem value={"visitor"}>Visitor</MenuItem>
+          </Select>
+        </FormControl>
+        <FormControl>
+          <InputLabel id="targetBuildingLabel">Parking Near</InputLabel>
+          <Select
+            labelId="targetBuildingLabel"
+            id="targetBuilding"
+            value={targetBuilding}
+            label="Age"
+            onChange={handleBuildingPicker}
+          >
+            <MenuItem value={"science-hall"}>Science Hall</MenuItem>
+            <MenuItem value={"lecture-center"}>Lecture Center</MenuItem>
           </Select>
         </FormControl>
         <Button
@@ -146,6 +186,9 @@ export default function LotsListPage() {
               alignItems="center"
             >
               <Typography variant="h6">{lot.title}</Typography>
+              <Typography variant="body2" color="text.secondary">
+                {lot.distance.toFixed(2)}mi
+              </Typography>
               <Typography variant="body2" color="text.secondary">
                 {lot.available} / {lot.capacity} available
               </Typography>

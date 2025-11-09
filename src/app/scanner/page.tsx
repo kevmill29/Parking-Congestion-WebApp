@@ -47,11 +47,11 @@ export default function Page() {
     setRefresh((refresh) => !refresh);
   };
 
-  const handlePlateChange = (e) => {
+  const handlePlateChange = (e:any) => {
     setPlateNumber(e.target.value);
   };
 
-  const handleSelectLot = (e) => {
+  const handleSelectLot = (e:any) => {
     setLotID(e.target.value);
   };
   useEffect(() => {

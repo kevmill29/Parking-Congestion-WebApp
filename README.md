@@ -95,41 +95,7 @@ Styling	Material UI (MUI), Tailwind CSS, Emotion SSR
 Backend	Next.js API Routes, MongoDB Atlas
 Deployment	Vercel or Node.js Environment
 Version Control	Git & GitHub
-# Project Structure
-src/
-│
-├── app/
-│   ├── page.tsx                # Home page
-│   ├── layout.tsx              # App layout
-│   │
-│   ├── lots/                   # Parking lot overview
-│   │   ├── page.tsx            # List of lots with occupancy bars
-│   │   ├── components/
-│   │   │   ├── LotCard.tsx     # Individual lot info display
-│   │   │   └── SortButton.tsx  # Sort lots by availability
-│   │
-│   ├── enforcement/
-│   │   ├── page.tsx            # Enforcement dashboard
-│   │   └── components/
-│   │       └── AlertsTable.tsx # Unauthorized cars list
-│   │
-│   ├── accidents/
-│   │   └── page.tsx            # Accident/incident reporting form
-│   │
-│   └── api/
-│       ├── lots/
-│       │   ├── route.ts        # GET lots data
-│       │   └── scan/route.ts   # POST for scanning plate in/out
-│       └── enforcement/
-│           └── alerts/route.ts # GET unauthorized car alerts
-│
-├── components/
-│   └── BackButton.tsx          # Global back button
-│
-├── lib/
-│   └── mongodb.ts              # MongoDB logic + helpers
-│
-└── globals.css                 # Global Tailwind + MUI styles
+
 
 # MongoDB Schema
 lots Collection

@@ -98,9 +98,13 @@ Version Control	Git & GitHub
 ##API Endpoints
 Method	Endpoint	Description
 GET	/api/lots	Retrieve all parking lots and scan counts
+
 POST	/api/lots/scan	Log vehicle entry/exit events
+
 GET	/api/enforcement/alerts	Fetch unauthorized vehicle alerts
+
 POST	/api/accidents	Submit an accident report Setup Instructions
+
 1️ Clone the Repository
 git clone https://github.com/kevmill129/Parking-Congestion-WebApp.git
 cd Parking-Congestion-WebApp

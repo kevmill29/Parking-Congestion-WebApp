@@ -46,6 +46,8 @@ It’s built using Next.js 16 and Material UI, with MongoDB as the backend data 
 
 -Sort lots by availability (ascending/descending)
 
+-Sort by distance from
+
 -Dynamic data pulled from MongoDB
 
  -Enforcement Dashboard

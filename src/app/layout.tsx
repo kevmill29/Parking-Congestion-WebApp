@@ -1,16 +1,31 @@
-import './globals.css';
-import ThemeRegistry from '@/app/ThemeRegistry';
+import type { Metadata } from "next";
+import CssBaseline from "@mui/material/CssBaseline";
+import BottomNav from "./components/BottomNav";
+import TopNav from "./components/TopNav";
+import "./globals.css";
+import { Container } from "@mui/material";
 
-export const metadata = {
-  title: 'Parking Management Dashboard',
-  description: 'Track parking lots, enforcement, and reports',
+export const metadata: Metadata = {
+  title: "LotSight",
+  description: "an app for parking at SUNY New Paltz",
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
     <html lang="en">
-      <body>
-        <ThemeRegistry>{children}</ThemeRegistry>
+      <CssBaseline />
+
+      <body className={"body-layout"}>
+        <TopNav />
+        <main className="main-grow">
+          <Container maxWidth="lg">{children}</Container>
+        </main>
+
+        <BottomNav />
       </body>
     </html>
   );
